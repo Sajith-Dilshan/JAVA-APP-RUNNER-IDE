@@ -13,7 +13,7 @@ public class MainFormController {
     public TextArea txtOutput;
     public TextArea txtInput;
 
-    public void btnRun_OnAction(ActionEvent actionEvent) throws IOException {
+    public void btnRun_OnAction(ActionEvent actionEvent) throws IOException, InterruptedException {
 
         /* Step 1 */
         String data = "public class DEP8IDEDemo{\n" +
@@ -26,6 +26,12 @@ public class MainFormController {
         String tempDir = System.getProperty("java.io.tmpdir");
         Path tempFilePath = Paths.get(tempDir ,  "DEP8IDEDemo.java");
         Files.write(tempFilePath, data.getBytes());
+
+        /* Step 3 */
+        Process javac = Runtime.getRuntime().exec("javac " + tempFilePath);
+        int exitCode = javac.waitFor();
+
+
 
 
 
