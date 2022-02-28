@@ -65,5 +65,6 @@ public class MainFormController {
         is.read(buffer);
         txtOutput.setText(new String(buffer));
         is.close();
+
     }
 }

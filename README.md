@@ -1,4 +1,15 @@
+
 #JAVA-APP-RUNNER-IDE
+
+####This application is a JavaFx Application.we can run java code without template code.I am recommend that IDE for java beginner to learn java without template code. 
+
+
+<hr>
+
+![Java App Runner](images/JAVAAPPRUNNER.png)
+
+
+
 
 ### How to use this repo?
 
