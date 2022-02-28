@@ -15,6 +15,7 @@ public class MainFormController {
 
     public void btnRun_OnAction(ActionEvent actionEvent) throws IOException, InterruptedException {
 
+        try {
         /* Step 1 */
         String data = "public class DEP8IDEDemo{\n" +
                 "public static void main(String args[]){\n"+
@@ -32,12 +33,37 @@ public class MainFormController {
         int exitCode = javac.waitFor();
 
 
+        if (exitCode == 0){
+            /* Step 4 */
+            Process java = Runtime.getRuntime().exec("java -cp " + tempDir + " DEP8IDEDemo");
+            exitCode = java.waitFor();
 
+            if (exitCode == 0){
+                readStream(java.getInputStream());
+            }else{
+                readStream(java.getErrorStream());
+            }
+        }else{
+            readStream(javac.getErrorStream());
+        }
 
-
-
+     } catch (IOException | InterruptedException e) {
+         e.printStackTrace();
+     } finally {
+        Path classFilePath = Paths.get(System.getProperty("java.io.tmpdir"), "DEP8IDEDemo.class");
+        Path javaFilePath = Paths.get(System.getProperty("java.io.tmpdir"), "DEP8IDEDemo.java");
+        Files.deleteIfExists(classFilePath);
+        Files.deleteIfExists(javaFilePath);
+     }
 
     }
 
 
+
+    private void readStream(InputStream is) throws IOException {
+        byte[] buffer = new byte[is.available()];
+        is.read(buffer);
+        txtOutput.setText(new String(buffer));
+        is.close();
+    }
 }
